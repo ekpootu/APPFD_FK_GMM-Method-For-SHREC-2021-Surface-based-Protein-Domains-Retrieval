@@ -1,4 +1,3 @@
-
 # Import needed libraries and packages
 import numpy as np
 import matplotlib.pyplot as plt
@@ -64,7 +63,7 @@ def keypoints_APPFD_6x35bins(pointsCloud, normals, nSamples, r, nBins, voxel_siz
 	#Find the k-clossest point(s) in the Scaled Cloud to EACH down-sampled Cloud, and REPLACE those in down-sampled cloud, where k = 1.
 
 	# Call function to get the actual Down-sampled cloud that lies originally on the mesh surface. V1 - returns dsPs, dsNs
-	actualDScloud, actualDScloudnormals = ekpo.k_nnVSnormal(downsampledCloud, pointsCloud, normals)
+	actualDScloud, actualDScloudnormals = ekpo.getActual_subCloud_and_normals(downsampledCloud, pointsCloud, normals)
 	
 	accummulated_keypoints_descriptors = []
 
