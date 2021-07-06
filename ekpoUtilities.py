@@ -33,6 +33,29 @@ def angrw(vecs1, vecs2):
 	return np.arccos(np.clip(p4, -1.0, 1.0))
 # ------------------------------------------------------------------------------------------------- #
 
+#Function that TAKES-IN 'Cloud' vs 'Normals' then uses scipy library's cKDTree to find 1-Nearest neighbour to point p of interest
+#And returns the nearest POINT and NORMALS
+def k_nnVSnormal(points3D, Normals, interestPoint, k):
+	'''
+	Default value of k = 7.
+	from scipy.spatial import cKDTree
+	Coded By: Dr. Ekpo Otu (eko@aber.ac.uk)    Tuesday, February 5th, 2019.
+	'''
+	#Construct a KD-Tree using the scipy library
+	tree = cKDTree(points3D, leafsize = 2)
+	#Find k nearest indexes in the data. N/B: tree.query returns two values (i.e distance, and index/indices of the k points)
+	dist, indx = tree.query(interestPoint, k)
+	'''
+	dist == Distances between each of the k-Nearest points and the interest-point
+	'''
+	#Now, retrieve the actual coordinates to those indices
+	kClossestCoords = points3D[indx]
+	kClossestCoordsNormals = Normals[indx]
+
+	#Return Coordinates of k-Nearest points to interestPoint & Distance
+	return kClossestCoords, kClossestCoordsNormals
+# ------------------------------------------------------------------------------------------------- #
+
 #Function to Normalize [numpy 1D array].
 def normalize1Darrayx(data):
 	'''
@@ -60,7 +83,7 @@ def downsampleCloud_Open3d(pcdcloud, voxel_size = 0.15):
 	import open3d
 	import numpy as np
 	'''
-	downpcd = open3d.voxel_down_sample(pcdcloud, voxel_size)
+	downpcd = pcdcloud.voxel_down_sample(voxel_size)
 	dspcd_to_numpy = np.asarray(downpcd.points)
 	return dspcd_to_numpy
 
