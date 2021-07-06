@@ -33,6 +33,19 @@ def angrw(vecs1, vecs2):
 	return np.arccos(np.clip(p4, -1.0, 1.0))
 # ------------------------------------------------------------------------------------------------- #
 
+#Function to Normalize [numpy 1D array].
+def normalize1Darrayx(data):
+	'''
+	NOTE: Adding together the values returned will NOT SUM to 1.
+	data - Must be an [N x 1] or [1 x N] array.
+	
+	Author: Ekpo (eko@aber.ac.uk)  25th February, 2019
+	'''
+	dataMin = data.min()
+	return (data - dataMin) / (data.max() - dataMin) 
+	
+# ------------------------------------------------------------------------------------------------- #
+
 #Open3d Python Function to Down-sample a Given Point Cloud, using Voxel Grid.
 def downsampleCloud_Open3d(pcdcloud, voxel_size = 0.15):
 	'''
