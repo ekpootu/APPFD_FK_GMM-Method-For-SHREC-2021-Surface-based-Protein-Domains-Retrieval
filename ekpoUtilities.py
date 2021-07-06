@@ -1,7 +1,7 @@
 """
 Utility functions needed to compute the APPFD-FK-GMM descriptor for 3D Triangular mesh.
 
-@author: Ekpo Ekpo Otu (eko@aber.ac.uk)
+@author: Dr. Ekpo Ekpo Otu (eko@aber.ac.uk)
 """
 # ------------------------------------------------------------------------------------------------- #
 #Import the needed library(ies).
@@ -13,7 +13,7 @@ import open3d
 
 import glob, re
 from scipy.spatial.distance import pdist, squareform 
-
+from scipy.spatial import cKDTree
 # ------------------------------------------------------------------------------------------------- #
 # ------------------------------------------------------------------------------------------------- #
 #Ignore wanrnings arising from 'invalid' division and 'division' by 0.
@@ -47,7 +47,7 @@ def downsampleCloud_Open3d(pcdcloud, voxel_size = 0.15):
 	OUTPUTS:
 	dspcd_to_numpy - Nx3 array of the down-sampled point cloud. 
 	REF:
-	Author: Ekpo, eko@aber.ac.uk   Date: 21th December, 2018
+	Author: Dr. Ekpo Otu, eko@aber.ac.uk   Date: 21th December, 2018
 	
 	import open3d
 	import numpy as np
@@ -74,7 +74,7 @@ def rnn_normals_skl(scaledPs, Ns, ip, r, leafSize = 30):
 	neighbours(N x 3 array): Coordinates of the points neighbourhood within the distance givien by the radius, 'r'.
 	dist(1 x N array): Contains the distances to all points which are closer than 'r'. N is the size or number of neighbouring points returned.
 	
-	Author: Ekpo Otu(eko@aber.ac.uk) 
+	Author: Dr. Ekpo Otu(eko@aber.ac.uk) 
 	'''	
 	neigh = NearestNeighbors(radius = r)
 	neigh.fit(scaledPs)
@@ -106,9 +106,76 @@ def gpe(val, comb = 2):
 
 # ------------------------------------------------------------------------------------------------- #
 
+#Function to find the principal axes of a 3D point cloud.
+def computePCA(pointCloud):
+	"""
+	INPUT: 
+		pointCloud -  [N x 3] array of points (Point Cloud) for a single input 3D model.
+	OUTPUT:
+		eigenvectors - Three floating point values, representing the magnitude of principal directions in each 3-dimensions.
+		
+	Author: Dr. Ekpo Otu (eko@aber.ac.uk)
+	"""
+	#Compute the centroid/mean of input point cloud AND Center the point cloud on its centroid/mean
+	pointCloud -= np.mean(pointCloud, axis=0)
+	
+	#Transpose the Centered point cloud, so we now have (3xN) array, instead of (Nx3).
+	#pointCloud is transposed due to np.cov/corrcoef syntax
+	coords = pointCloud.T
+	
+	covarianceMatrix = np.cov(coords)
+	#covarianceMatrix = coords.T.dot(coords)
+	eigenvalues, eigenvectors = np.linalg.eig(covarianceMatrix)
+	
+	order = eigenvalues.argsort()[::-1]
+	eigenvalues = eigenvalues[order]
+	eigenvectors = eigenvectors[:, order]
+		
+	#Output/Return eigenVectors alone. 
+	return eigenvectors
+
+# ------------------------------------------------------------------------------------------------- #
+
+#Function that uses scipy library's 'FASTER' cKDTree to find Nearest neighbour within a radius r, to point p of interest
+#With the condition that the minimum number of r-Neighbours to any given 'interestPoint' MUST be greater than 5. Else k-NN,
+#where k = 9, is used instead. #def rnn_conditional(points3D, interestPoint, r = 0.17, k = 9):
+def rnn_conditional(points3D, interestPoint, r, k):
+	'''
+	INPUT:
+		- points3D: Nx3 Array of pointCloud.
+		- interestPoint: 1x3 vector or coordinate, which is EACH point from the 'sub-sampled points' or 'keypoints'.
+		- r (Floating Value): Radius, 'r', around which Neighbouring points to 'interestPoint' are to be determined.
+				Usually r = 0.02 for pointCloud Normals estimation, or 0.04/0.05 for PFH/Surflet-Pair based SD
+		- k (Integer Value): If the 'number of r-neigbours' to 'interestPoint' is < 5, then USE k-NN search on 'points3D', where 'k' = k.
+	OUTPUT:
+		- rClosestPoints: r-Nearest points to interest point (i), if len(rClosestPoints) >= 5
+		- kClosestPoints: k-Nearest points to interest point (i), if len(rClosestPoints) < 5
+		
+	Author: Dr. Ekpo Otu (eko@aber.ac.uk)
+	'''
+	#from scipy.spatial import cKDTree
+	tree = cKDTree(points3D, leafsize = 2)
+	indx = tree.query_ball_point(interestPoint, r)
+	rClossestCoords = points3D[indx]
+	#print("\nHow Many Neigbhouring Points/Coordinates to interestPoint'{}', When The Value of r = {}:\n".format(interestPoint, r), rClossestCoords.shape[0])
+	#print("\nrClossestCoords.shape[0]:\n", rClossestCoords.shape[0])
+	
+	#CONDITION:
+	#Check if the number of neighbours is 5 or more. 5 points should beminimum!
+	if rClossestCoords.shape[0] < 5:
+		#Then employ k-NN search to enform 5 minimum neighbours. i.e k = 5
+		_, indx = tree.query(interestPoint, k)  #Find k nearest indexes in the data.
+		#Now, retrieve the actual coordinates to those k-indices
+		kClossestCoords = points3D[indx]
+		#print("\nHow Many Neigbhouring Points/Coordinates to interestPoint '{}', When The Value of k = {}:\n".format(interestPoint, k), kClossestCoords.shape[0])
+		return kClossestCoords
+	else:
+		return rClossestCoords	
+# ------------------------------------------------------------------------------------------------- #
+
 #Function to compute 'Ns' for every p in Ps.
 #This function uses scipy library's cKDTree to find k-Nearest neighbours OR points within a radius rr, to point p of interest
-def normalsEstimationFromPointCloud_PCA(Ps, rr = 0.17, kr = 9):
+def normalsEstimationFromPointCloud_PCA(Ps, rr = 0.17, kk = 9):
 	'''
 	INPUTS:
 		Ps:      N x 3 Array of 'pointCloud', sampled from 3D Triangular Mesh.
@@ -118,7 +185,7 @@ def normalsEstimationFromPointCloud_PCA(Ps, rr = 0.17, kr = 9):
 	OUTPUT:
 		[Ps], [Ns]: Each, an N x 3 array of data, representing 'Ps'.
 		
-	Author: Ekpo Otu(eko@aber.ac.uk)
+	Author: Dr. Ekpo Otu(eko@aber.ac.uk)
 	'''
 	pts = []
 	Ns = []
@@ -126,7 +193,7 @@ def normalsEstimationFromPointCloud_PCA(Ps, rr = 0.17, kr = 9):
 		ip = Ps[i]
 		pts.append(ip)
 		nn = rnn_conditional(Ps, ip, rr, kk)
-		_, evec = computePCA(nn)
+		evec = computePCA(nn)
 		Pn = evec[:, 2]
 		Ns.append(Pn)
 		
@@ -142,7 +209,7 @@ def getActual_subCloud_and_normals(subCloud, mainCloud, normals):
 	mainCloud(N x 3 array):  main pointsCloud.
 	normals(N x 3 array):  Normal Vectors to the mainCloud.
 	
-	Coded By: Ekpo (eko@aber.ac.uk)    Tuesday, February 5th, 2019.
+	Coded By: Dr. Ekpo Otu (eko@aber.ac.uk)    Tuesday, February 5th, 2019.
 	'''
 	k = 1
 	actual_dsCloud = []  #ds = Down-sampled
