@@ -1,12 +1,12 @@
 
+# Import needed libraries and packages
+import numpy as np
+import matplotlib.pyplot as plt
+
 # Import algorithm that computes local keypoints APPFD descriptors as extract
 np.set_printoptions(suppress = True)
 
-# Import needed libraries and packages
 import ekpoUtilities as ekpo
-
-import numpy as np
-import matplotlib.pyplot as plt
 
 import open3d
 from sklearn import preprocessing
