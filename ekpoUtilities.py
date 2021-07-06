@@ -247,7 +247,7 @@ def getActual_subCloud_and_normals(subCloud, mainCloud, normals):
 	actual_dsCloudNormals = []  #ds = Down-sampled
 
 	for p in subCloud:
-		coord, norm = k_nearestNeigbourVSnormal(mainCloud, normals, p, k)
+		coord, norm = k_nnVSnormal(mainCloud, normals, p, k)
 		actual_dsCloud.append(coord)
 		actual_dsCloudNormals.append(norm)
 
