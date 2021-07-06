@@ -25,31 +25,20 @@ KDA (KeypointsDescriptorAggregation), FV(Fisher Vector), GMM(Gaussian Mixture Mo
 '''
 #Similar to the SIFT descriptor, for EVERY 'keypoint' or Local Surface Patch - 'LSP', we want to compute and SAVE/OUTPUT a descriptor (i.e. Feature-Vector, FV).
 #Code modified on Tuesday, 16th December, 2019 and on Monday, 2nd March, 2021 by Ekpo Otu(eko@aber.ac.uk).
-def keypoints_APPFD_6x35bins(pointsCloud, normals, filename, outdir_data, saveDescrAs, descr_ext, nSamples, r, nBins, voxel_size):
+def keypoints_APPFD_6x35bins(pointsCloud, normals, nSamples, r, nBins, voxel_size):
 	'''    
 	INPUT: 
 	i. pointsCloud: N x 3 array, PointsCloud for a single 3D model.
 
 	ii. normals:  N x 3 array of Normal Vectors correspoinding to every points in the pointsCloud (i).
 
-	iii. filename: Specific filename of a single 3D model to be read and processed. 
-		Example: cat4.off
+	iii. nSamples - Number 'Random'/'Uniform' points to samples from 3D Triangular Mesh (i.e filename.obj). Default N = 3500
 
-	iv. outdir_data:  Path/directory where output data/values from this function should be saved to. 
-		Example: "C:/Users/Ekpo/Desktop/outdir_data/"
-		
-	v. saveDescrAs:  String - Filename and extension that would be used to SAVE the computed LSP descriptor (i.e. APPFD_FV_GMM6x35bins.lspDescr) for EACH input 3D object.
-		Example: "APPFD_FV_GMM6x35bins.lspDescr".
-		
-	vi. descr_ext: String - After EACH local (LSP) descriptor is computed for a given 3D model, it is SAVED with a file extension indicated by "descr_ext" string.
+	iv. r (Float: Default = 0.27): Radius param, used by r-nn search to determine the size of Local Surface Patch or Region. 
 
-	vii. nSamples - Number 'Random'/'Uniform' points to samples from 3D Triangular Mesh (i.e filename.obj). Default N = 3500
+	v. nBins = 35     #Number of bins for the 1-dimensional histogram of each of the Feature-dimension. Default = 15.
 
-	viii. r (Float: Default = 0.27): Radius param, used by r-nn search to determine the size of Local Surface Patch or Region. 
-
-	ix. nBins = 35     #Number of bins for the 1-dimensional histogram of each of the Feature-dimension. Default = 15.
-
-	x. voxel_size(Float, Default = 0.15):  Parameter to be used by the Voxel Down-Sampling function of Open3D.
+	vi. voxel_size(Float, Default = 0.15):  Parameter to be used by the Voxel Down-Sampling function of Open3D.
 
 
 	OUTPUT:
@@ -60,11 +49,6 @@ def keypoints_APPFD_6x35bins(pointsCloud, normals, filename, outdir_data, saveDe
 	'''
 	# Seed for repeatable results during different runs.
 	np.random.seed(231)
-	
-	#Retrieve ONLY filename(i.e basename), Given Full filePath/name. Without '.off' or '.obj' extension
-	basename = ekpo.getBasename(filename)[:-4] 
-	print("\nFilename under process:\t\t", ekpo.getBasename(filename))
-
 	'''
 	Perform Voxel-Downsampling on Mesh - Using the Parameter: voxel_size
 	'''
@@ -269,13 +253,6 @@ def keypoints_APPFD_6x35bins(pointsCloud, normals, filename, outdir_data, saveDe
 	
 	#Vertically STACK all Keypoints Descriptors INTO one LARGE Matrix Array.
 	accummulated_keypoints_descriptors = np.asarray(accummulated_keypoints_descriptors)
-
-	#SAVE THE LSP DESCRIPTOR FOR INPUT 3D SHAPE (POINT CLOUD) TO FILE
-	head_x, tail_x = os.path.split(filename)
-	name_only = tail_x[:-3] + saveDescrAs
-	
-	fv_name = outdir_data + name_only
-	ekpo.saveFeaturesToFile(fv_name, accummulated_keypoints_descriptors)
 	gc.collect()
 
 	return accummulated_keypoints_descriptors 
