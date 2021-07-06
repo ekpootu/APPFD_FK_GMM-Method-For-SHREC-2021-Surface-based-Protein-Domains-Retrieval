@@ -8,6 +8,15 @@ This repository presents the code-implementation of our novel 3D shape retrieval
 * Further details regarding this retrieval track can be found **[here](http://shrec2021.drugdesign.fr/)**.
 
 
+## OUR TEAM
+1. Ekpo Otu (eko@aber.ac.uk)
+2. Prof. Reyer(rrz@aber.ac.uk)
+3. Prof. Yonguai (liuyo@edgehill.ac.uk)
+4. Dr. David (dah56@aber.ac.uk)
+
+* Please contact: [Ekpo Otu](eko@aber.ac.uk) for any issue or concern regarding this implementation.
+
+
 ## [1. The Research Problem](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
 According to [[1](http://shrec2021.drugdesign.fr/)], proteins are primarily made of two domains (the structural as and functional sub-units of proteins), or more, which can exist independently of the rest of the proteins, and are the level at which protein interactions and functions are studied. To compare proteins at the domain level for similarities is a common task in structural biology, biochemistry or drug discovery. Proteins can be described as non-rigid surfaces representing their solvent-excluded surface (SES) as defined by Connoly (Connoly et al., J Appl Cryst. 1983). Additional, biologically-relevant information can be provided, such as electrostatics, to further describe these molecular shapes.
 
