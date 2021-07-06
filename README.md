@@ -16,16 +16,16 @@ This repository presents the code-implementation of our novel 3D shape retrieval
 
 
 ## [1. Introduction](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
-This repository contains the following code-implementation (Python scripts) and a [Jupyter notebook](#) demonstrating some essential steps. We try as much as possible to keep things simple and straightforward, to the best of our abilities. Please feel free to contact: [Dr. Ekpo Otu](eko@aber.ac.uk) for any issue or concern regarding this work.
+This repository contains the following code-implementation (Python scripts) and a [Jupyter notebook](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/SHREC2021_ProteinDomainsRetrieval_Track4.ipynb) demonstrating some essential steps. We try as much as possible to keep things simple and straightforward, to the best of our abilities. Please feel free to contact: [Dr. Ekpo Otu](eko@aber.ac.uk) for any issue or concern regarding this work.
 
-* [local_appfd_method.py](#)
-* [ekpoUtilities.py](#)
-* [fisher_vector.py](#)
-* [SHREC2021_ProteinDomainsRetrieval_Track4.ipynb](#)
+* [local_appfd_method.py](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/local_appfd_method.py)
+* [ekpoUtilities.py](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/ekpoUtilities.py)
+* [fisher_vector.py](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/fisher_vector.py)
+* [SHREC2021_ProteinDomainsRetrieval_Track4.ipynb](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/SHREC2021_ProteinDomainsRetrieval_Track4.ipynb)
 
-> The [local_appfd_method.py](#) contains our baseline algorithm that extracts 6-dimensional hand-crafted local geometric features from the surface of 3D point cloud and computes local Augmented Point-pair Feature Descriptors (APPFD) for Local Surface Patches (LSPs) around a keypoint (or interest point). Some of the supporting functions needed by this algorithm (local APPFD) are presented in [ekpoUtilities.py](#). After we have computed local APPFD 3D shape descriptors for each 3D model in the dataset, these descriptors are agglomerated using a fisher-kernel framework, implemented by a function in [fisher_vector.py](#) - following the training and fitting of a Gaussian Mixture Model (GMM) on combined locally-computed APPFDs for all database objects/models.
+> The [local_appfd_method.py](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/local_appfd_method.py) contains our baseline algorithm that extracts 6-dimensional hand-crafted local geometric features from the surface of 3D point cloud and computes local Augmented Point-pair Feature Descriptors (APPFD) for Local Surface Patches (LSPs) around a keypoint (or interest point). Some of the supporting functions needed by this algorithm (local APPFD) are presented in [ekpoUtilities.py](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/ekpoUtilities.py). After we have computed local APPFD 3D shape descriptors for each 3D model in the dataset, these descriptors are agglomerated using a fisher-kernel framework, implemented by a function in [fisher_vector.py](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/fisher_vector.py) - following the training and fitting of a Gaussian Mixture Model (GMM) on combined locally-computed APPFDs for all database objects/models.
 
-> Additionally, we present a Jupyter notebook: [SHREC2021_ProteinDomainsRetrieval_Track4.ipynb](#) to demonstrate some essential steps in this implementation and explain the stages on the APPFD algorithm, as well as the APPFD-FK-GMM method. **[Click Here](#)** to access the Notebook.
+> Additionally, we present a Jupyter notebook: [SHREC2021_ProteinDomainsRetrieval_Track4.ipynb](#) to demonstrate some essential steps in this implementation and explain the stages on the APPFD algorithm, as well as the APPFD-FK-GMM method. **[Click Here](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/SHREC2021_ProteinDomainsRetrieval_Track4.ipynb)** to access the Notebook.
 > 
 
 ## [2. The Research Problem](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
@@ -55,14 +55,14 @@ Standard metrics of previous shape retrieval experiments will be used: precision
 ## [6. Our Implementation](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
 We approach this retrieval challenge by first computing a novel, knowledged-based 3D shape descriptor, the Augmented Point-pair Features Descriptor (APPFD) which is based on the extraction of 6-dimensional local hand-crafted features from keypoint regions (i.e. Local Surface Patches - LSP or regions) on the surface of a given 3D protein model. The final APPFD involves bucketing each of the 6-dimensional locally-extracted features into a 1-dimensional histogram, where number of bins, ***B = 35***. The resulting APPFD for each keypoint or LSP is a ***210-dimensional*** vector. Next, we agglomerate all computed local APPFD into a single compact code or representation, using the Fisher-Kernel (FK) and Gaussian Mixture Model (GMM) framework. The final 3D shape descriptor we present for each input 3D protein model is therefore a novel 3D shape descriptor called APPFD-FK-GMM, which is a 1-dimensional feature vector (***fv***) - compact and highly discriminative against different protein domains.
 
-> We provide a simple and straightforward implementation pipeline for the APPFD-FK-GMM 3D shape retrieval/classification method in this **[Jupyter notebook](#)**.
+> We provide a simple and straightforward implementation pipeline for the APPFD-FK-GMM 3D shape retrieval/classification method in this **[Jupyter notebook](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/SHREC2021_ProteinDomainsRetrieval_Track4.ipynb)**.
 
 > Comparing of two different protein models or domains, is reduced to finding the spatial distance/(dis)similarity between their final APPFD-FK-GMM descriptors.
 
 This repository, therefore contains full code implementation of the APPFD-FK-GMM 3D shape retrieval (and classification) method. Detained description of the implementation are also provided below.
 
-## [6. Implementation Guides](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
-See this Jupyter notebook for a Step-by-Step implementation guidance on our novel 3D shape descriptor or retrieval method, called the APPFD-FK-GMM.
+## [6. Implementation Guides](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/SHREC2021_ProteinDomainsRetrieval_Track4.ipynb)
+**[See this Jupyter notebook](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/blob/main/SHREC2021_ProteinDomainsRetrieval_Track4.ipynb)** for a Step-by-Step implementation guidance on our novel 3D shape descriptor or retrieval method, called the APPFD-FK-GMM.
 
 > The method we present here for this protein domains retrieval challenge are completely implemeted in Python 3.6. We strictly adopt the FOP (Functional Oriented Programming) coding style for all functions and algorithms presented here.
 
