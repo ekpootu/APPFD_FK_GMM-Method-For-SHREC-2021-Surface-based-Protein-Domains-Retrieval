@@ -33,11 +33,6 @@ def angrw(vecs1, vecs2):
 	return np.arccos(np.clip(p4, -1.0, 1.0))
 # ------------------------------------------------------------------------------------------------- #
 
-def getBasename(filename_and_path):
-	return ntpath.basename(filename_and_path)
-	
-# ------------------------------------------------------------------------------------------------- #
-
 #Open3d Python Function to Down-sample a Given Point Cloud, using Voxel Grid.
 def downsampleCloud_Open3d(pcdcloud, voxel_size = 0.15):
 	'''
