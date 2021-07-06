@@ -37,7 +37,9 @@ According to [[1](http://shrec2021.drugdesign.fr/)], proteins are primarily made
 
 
 ## [3. Dataset](http://shrec2021.drugdesign.fr/)
-603 single-domain or multi-domain protein surfaces were provided to the participants, in two versions : a shape-only file and shape+electrostatics file (provided as .ply files). Each protein will includes at least one of the query domain, meaning that several proteins will match several queries. Additional details regarding the dataset for this retrieval challenge can be obtained **[HERE](http://shrec2021.drugdesign.fr/)**
+603 single-domain or multi-domain protein surfaces were provided to the participants, in two versions : a shape-only file and shape+electrostatics file (provided as .ply files). Each protein will includes at least one of the query domain, meaning that several proteins will match several queries. Additional details regarding the dataset for this retrieval challenge can be obtained **[HERE](http://shrec2021.drugdesign.fr/)**.
+
+> In this repository, we provide 8 different sample data (i.e. 8 different 3D protein models). Two categories of datasets (**[shape-only](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/tree/main/dataset01_shape)** and **[shape+electrostatics](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval/tree/main/dataset02_electro)**) were added to this repository. Each category contains two sub-directories (query and collection), with each having 2 sample 3D mesh files provided in compressed ***.zip*** files. A total of 8 sample 3D protein surfaces , represented as triangular meshes.
 
 
 ## [4. Research Tasks](http://shrec2021.drugdesign.fr/)
