@@ -1,5 +1,5 @@
 # APPFD-FK-GMM Method for Surface-based Protein Domains Retrieval (SHREC 2021)
-3D Shape Retrieval method (algorithm) called the Agglomeration of Augmented Point-pair Features Descriptor with Fisher Kernel and Gaussian Mixture Model (APPFD-FK-GMM).
+The APPFD-FK-GMM is a 3D shape retrieval method (algorithm) which involves the Agglomeration of Augmented Point-pair Features Descriptor with Fisher Kernel and Gaussian Mixture Model (APPFD-FK-GMM).
 
 
 # [SHREC 2021, Surface-based Protein Domains Retrieval](http://shrec2021.drugdesign.fr/)
