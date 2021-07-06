@@ -12,8 +12,10 @@ import open3d
 
 
 import glob, re
-from scipy.spatial.distance import pdist, squareform 
+from scipy.spatial.distance import pdist, squareform
+from sklearn.neighbors import NearestNeighbors
 from scipy.spatial import cKDTree
+from itertools import combinations
 # ------------------------------------------------------------------------------------------------- #
 # ------------------------------------------------------------------------------------------------- #
 #Ignore wanrnings arising from 'invalid' division and 'division' by 0.
@@ -253,5 +255,3 @@ def getActual_subCloud_and_normals(subCloud, mainCloud, normals):
 
 	return np.asarray(actual_dsCloud), np.asarray(actual_dsCloudNormals)
 # ------------------------------------------------------------------------------------------------- #
-
-
