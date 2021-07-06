@@ -53,8 +53,8 @@ def keypoints_APPFD_6x35bins(pointsCloud, normals, nSamples, r, nBins, voxel_siz
 	Perform Voxel-Downsampling on Mesh - Using the Parameter: voxel_size
 	'''
 	#Step 1: Convert point cloud to .pcd format - Using Open3d
-	pcd = open3d.PointCloud()
-	pcd.points = open3d.Vector3dVector(pointsCloud)
+	pcd = open3d.geometry.PointCloud()
+	pcd.points = open3d.utility.Vector3dVector(pointsCloud)
 
 	#Step 2: Down-sample the RMS-Scaled Points Cloud data.
 	downsampledCloud = ekpo.downsampleCloud_Open3d(pcd, voxel_size)
@@ -64,7 +64,7 @@ def keypoints_APPFD_6x35bins(pointsCloud, normals, nSamples, r, nBins, voxel_siz
 	#Find the k-clossest point(s) in the Scaled Cloud to EACH down-sampled Cloud, and REPLACE those in down-sampled cloud, where k = 1.
 
 	# Call function to get the actual Down-sampled cloud that lies originally on the mesh surface. V1 - returns dsPs, dsNs
-	actualDScloud, actualDScloudnormals = ekpo.getActual_subCloud_and_normals(downsampledCloud, pointsCloud, normals)
+	actualDScloud, actualDScloudnormals = ekpo.k_nnVSnormal(downsampledCloud, pointsCloud, normals)
 	
 	accummulated_keypoints_descriptors = []
 
