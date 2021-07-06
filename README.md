@@ -68,5 +68,6 @@ This repository, therefore contains full code implementation of the APPFD-FK-GMM
 
 > The method we present here for this protein domains retrieval challenge are completely implemeted in Python 3.6. We strictly adopt the FOP (Functional Oriented Programming) coding style for all functions and algorithms presented here.
 
-## [7. References](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
+## [7. Citation](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
+Feel free to use all or part of the codes implemented in this repository for research or personal project, and please remeber to cite this work as follows:
 TBC...
