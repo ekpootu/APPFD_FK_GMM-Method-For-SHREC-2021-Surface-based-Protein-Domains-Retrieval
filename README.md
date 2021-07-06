@@ -8,7 +8,7 @@ This repository presents the code-implementation of our novel 3D shape retrieval
 * Further details regarding this retrieval track can be found **[here](http://shrec2021.drugdesign.fr/)**.
 
 
-## OUR TEAM
+## [OUR TEAM](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
 1. Ekpo Otu (eko@aber.ac.uk)
 2. Prof. Reyer(rrz@aber.ac.uk)
 3. Prof. Yonguai (liuyo@edgehill.ac.uk)
@@ -17,7 +17,18 @@ This repository presents the code-implementation of our novel 3D shape retrieval
 * Please contact: [Ekpo Otu](eko@aber.ac.uk) for any issue or concern regarding this implementation.
 
 
-## [1. The Research Problem](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
+## [1. Introduction](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
+This repository contains the following code-implementation (Python scripts) and a Jupyter notebook demonstrating some essential steps.
+* [local_appfd_method.py](#)
+* [ekpoUtilities.py](#)
+* [fisher_vector.py](#)
+* [SHREC2021_ProteinDomainsRetrieval_Track4.ipynb](#)
+
+> The [local_appfd_method.py](#) contain our baseline algorithm that extracts local 6-dimensional hand-crafted geometric features from the surface of 3D point cloud and computes local Augmented Point-pair Feature Descriptors (APPFD) for Local Surface Patches (LSPs) around a keypoint (or interest point). Some of the supporting functions needed by this algorithm are presented in [ekpoUtilities.py](#). After we have computed local APPFD 3D shape descriptors from each 3D model in the dataset, these descriptors are agglomerated using a fisher-kernnel framework, implemented by a function in [fisher_vector.py](#) - following training and fitting of a Gaussian Mixture Model (GMM) on all combined locally-computed APPFDs for all database objects/models.
+
+> Additionally, we present a Jupyter notebook: [SHREC2021_ProteinDomainsRetrieval_Track4.ipynb](#) to demonstrate some essential steps in this implementation and explain the stages on the APPFD algorithm, as well as the APPFD-FK-GMM method. *[Click Here](#) to access the Notebook.*
+
+## [2. The Research Problem](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
 According to [[1](http://shrec2021.drugdesign.fr/)], proteins are primarily made of two domains (the structural as and functional sub-units of proteins), or more, which can exist independently of the rest of the proteins, and are the level at which protein interactions and functions are studied. To compare proteins at the domain level for similarities is a common task in structural biology, biochemistry or drug discovery. Proteins can be described as non-rigid surfaces representing their solvent-excluded surface (SES) as defined by Connoly (Connoly et al., J Appl Cryst. 1983). Additional, biologically-relevant information can be provided, such as electrostatics, to further describe these molecular shapes.
 
 The above track proposes a set of representation for the conformational space of 10 query domains, extracted from the PFAM database (El-Geabli et al., NAR, 2019) as well as 554 surfaces of multi-domain proteins. Compared to the previous Protein Shape Retrieval contests, this track aims to focus on the evaluation of the performance to retrieve 10 individual domains among a set of 554 multi-domains protein surfaces.
@@ -25,7 +36,7 @@ The above track proposes a set of representation for the conformational space of
 Ten individual domains involved in protein-protein (7 domains) or protein-DNA (3 domains) were extracted from the PFAM database, and a representative structure of each of these domains were be provided to the participants as query for the retrieval task.
 
 
-## [2. Dataset](http://shrec2021.drugdesign.fr/)
+## [3. Dataset](http://shrec2021.drugdesign.fr/)
 603 single-domain or multi-domain protein surfaces were provided to the participants, in two versions : a shape-only file and shape+electrostatics file (provided as .ply files). Each protein will includes least one of the query domain, meaning that several proteins will match several queries.
 
 The structures were retrieved and protonated using propka (Sondergaard et al., JCTC, 2011; Olsson et al., JCTC, 2011). All solvent-excluded surfaces (SES) are calculated using EDTSurf (Xu et al., Plos One, 2009; atomic partial charges were computed using APBS (Jurrus et al., Protein Sci, 2018).
@@ -33,20 +44,20 @@ The structures were retrieved and protonated using propka (Sondergaard et al., J
 Additional details regarding the dataset for this retrieval challenge can be obtained **[HERE](http://shrec2021.drugdesign.fr/)**
 
 
-## [3. Research Tasks](http://shrec2021.drugdesign.fr/)
+## [4. Research Tasks](http://shrec2021.drugdesign.fr/)
 The participants were asked to produce a distance-to-the-query dissimilarity matrix, using either the shape-only, the shape+electrostatics or both versions for each query. 
 The participants are expected to return their results as a distance matrix file in binary format.
 
 Research participants are expected to provide runtimes and hardware specifications for their calculations since it is a critical information for processing large datasets, notably in this particular context of molecular surfaces.
 
 
-## [4. Ground Truth and Evaluation](http://shrec2021.drugdesign.fr/)
+## [5. Ground Truth and Evaluation](http://shrec2021.drugdesign.fr/)
 The ground truth is derived from PFAM database classification; only the family level of the database are used to generate the ground truth, and will be analyzed for the final report.
 
 Standard metrics of previous shape retrieval experiments will be used: precision - recall (PR) evaluation, Nearest Neighbor (NN), first-tier (FT), second-tier (ST), mean average precision (mAP), and confusion matrix.
 
 
-## [5. Our Implementation](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
+## [6. Our Implementation](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
 We approach this retrieval challenge by first computing a novel, knowledged-based 3D shape descriptor, the Augmented Point-pair Features Descriptor (APPFD) which is based on hand-crafted local features, extracted from keypoint regions (i.e. Local Surface Patches - LSP or regions) on the surface of a given 3D protein model. The final APPFD here involves discritizing each of the 6-dimensional locally-extracted features into a 1-dimensional binning, where number of bind, ***B = 35***. Next, we agglomerate all computed local APPFD into a single compact code or representation, using the Fisher-Kernel (FK) and Gaussian Mixture Model (GMM) framework. The final 3D shape descriptor we present for each input 3D protein model is therefore a novel 3D shape descriptor called APPFD-FK-GMM, which is a 1-dimensional feature vector (***fv***) - compact and highly discriminative against different protein domains.
 
 Comparing of two different protein models or domains, is reduced to finding the spatial distance/(dis)similarity between their final APPFD-FK-GMM descriptors.
