@@ -37,17 +37,17 @@ The ground truth is derived from PFAM database classification; only the family l
 Standard metrics of previous shape retrieval experiments will be used: precision - recall (PR) evaluation, Nearest Neighbor (NN), first-tier (FT), second-tier (ST), mean average precision (mAP), and confusion matrix.
 
 
-## [5. Our Implementation]
+## [5. Our Implementation](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
 We approach this retrieval challenge by first computing a novel, knowledged-based 3D shape descriptor, the Augmented Point-pair Features Descriptor (APPFD) which is based on hand-crafted local features, extracted from keypoint regions (i.e. Local Surface Patches - LSP or regions) on the surface of a given 3D protein model. The final APPFD here involves discritizing each of the 6-dimensional locally-extracted features into a 1-dimensional binning, where number of bind, ***B = 35***. Next, we agglomerate all computed local APPFD into a single compact code or representation, using the Fisher-Kernel (FK) and Gaussian Mixture Model (GMM) framework. The final 3D shape descriptor we present for each input 3D protein model is therefore a novel 3D shape descriptor called APPFD-FK-GMM, which is a 1-dimensional feature vector (***fv***) - compact and highly discriminative against different protein domains.
 
 Comparing of two different protein models or domains, is reduced to finding the spatial distance/(dis)similarity between their final APPFD-FK-GMM descriptors.
 
 This repository, therefore contains full code implementation of the APPFD-FK-GMM 3D shape retrieval (and classification) method. Detained description of the implementation are also provided below.
 
-## [6. Additional Notes]
+## [6. Additional Notes](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
 TBC...
 
 The method we present here for this protein domains retrieval challenge are completely implemeted in Python 3.6. We strictly adopt the FOP (Functional Oriented Programming) coding style for all functions and algorithms presented here.
 
-## [7. References]
+## [7. References](https://github.com/KoksiHub/APPFD_FK_GMM-Method-For-SHREC-2021-Surface-based-Protein-Domains-Retrieval)
 TBC...
